@@ -14,7 +14,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
-class PokeGAN:
+class GAN:
     def __init__(self, dataset_path, image_shape, batch_size, epochs):
         self.dataset_path = dataset_path
         self.image_shape = image_shape
@@ -161,17 +161,17 @@ class PokeGAN:
             fig.axes.get_yaxis().set_visible(False)
 
         plt.tight_layout()
-        save_name = 'new_pokemon/generated_pkmn_epoch' + str(
+        save_name = 'new_images/generated_epoch' + str(
             epoch_no + 1) + '_batch' + str(batch_no + 1) + '.png'
-        if not os.path.exists('new_pokemon'):
-            os.mkdir('new_pokemon')
+        if not os.path.exists('new_images'):
+            os.mkdir('new_images')
         plt.savefig(save_name, bbox_inches='tight', pad_inches=0)
         plt.pause(0.0000000001)
         plt.show()
 
     def train_model(self):
         """
-        Train the GAN to generate Pokemon images
+        Train the GAN to generate images based on input data
         :return:
         """
         generator = self.get_generator()
@@ -280,7 +280,7 @@ class PokeGAN:
                      label='Generator Loss')
             plt.plot(batches, discriminator_loss, color='blue',
                      label='Discriminator Loss')
-            plt.title("PokeGAN Training")
+            plt.title("GAN Training")
             plt.xlabel("Batch Iteration")
             plt.ylabel("Loss")
             if epoch == 0:
@@ -295,8 +295,8 @@ def main():
     batch_size = 64
     image_shape = (64, 64, 3)
     epochs = 45
-    poke_gan = PokeGAN(dataset_path, image_shape, batch_size, epochs)
-    poke_gan.train_model()
+    gan = GAN(dataset_path, image_shape, batch_size, epochs)
+    gan.train_model()
 
 
 if __name__ == "__main__":
